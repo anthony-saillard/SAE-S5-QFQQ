@@ -1,0 +1,10 @@
+declare module 'quasar/dist/types' {
+  import Vue from 'vue'
+  export default Vue
+}
+
+declare module 'vue' {
+  interface ComponentCustomProperties {
+    $q: any
+  }
+}

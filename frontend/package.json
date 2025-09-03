@@ -1,0 +1,60 @@
+{
+  "name": "qfqq-frontend",
+  "version": "0.0.1",
+  "description": " ",
+  "productName": "QFQQ Frontend",
+  "author": "BUT3 Info - 2024/2025",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint": "eslint -c eslint.config.js \"./src*/**/*.{js,cjs,mjs,vue}\"",
+    "format": "prettier --write \"**/*.{js,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build",
+    "postinstall": "quasar prepare"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{vue,js,jsx,cjs,mjs}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.4",
+    "axios": "^1.2.1",
+    "dayjs": "^1.11.13",
+    "pinia": "^2.0.11",
+    "quasar": "^2.16.0",
+    "sortablejs": "^1.15.6",
+    "vue": "^3.4.18",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.14.0",
+    "@quasar/app-vite": "^2.0.0",
+    "@quasar/app-webpack": "^4.0.8",
+    "@quasar/cli": "^2.4.1",
+    "@quasar/extras": "^1.16.15",
+    "@stylistic/eslint-plugin": "^3.0.0",
+    "@vue/eslint-config-prettier": "^10.1.0",
+    "autoprefixer": "^10.4.2",
+    "eslint": "^9.14.0",
+    "eslint-plugin-jsdoc": "^50.6.3",
+    "eslint-plugin-vue": "^9.30.0",
+    "globals": "^15.12.0",
+    "postcss": "^8.4.14",
+    "prettier": "^3.3.3",
+    "vite-plugin-checker": "^0.8.0"
+  },
+  "engines": {
+    "node": "^28 || ^26 || ^24 || ^22 || ^20 || ^18",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}

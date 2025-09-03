@@ -1,0 +1,55 @@
+image: docker:latest
+
+stages:
+  - build
+  - test
+  - deploy
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_IMAGE: lucy135/qfqq
+  DOCKER_IMAGE_TAG: CI-${CI_PIPELINE_ID}
+  DOCKER_BUILDKIT: 0
+
+cache:
+  paths:
+    - vendor/
+    - node_modules/
+
+before_script:
+   - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin
+#  - echo docker login -u "$CI_REGISTRY_USER" -p $DOCKER_HUB_PASSWORD
+
+build:
+  stage: build
+  script:
+    - echo "Build docker image ${DOCKER_IMAGE}"
+    - docker image build ./frontend/ -t $DOCKER_IMAGE:$DOCKER_IMAGE_TAG
+    - docker image push $DOCKER_IMAGE:$DOCKER_IMAGE_TAG
+    - docker image tag $DOCKER_IMAGE:$DOCKER_IMAGE_TAG $DOCKER_IMAGE:latest
+    - docker image push $DOCKER_IMAGE:latest
+
+test:lint:
+  stage: test
+  script:
+    - echo "Running linter on test image"
+    - if [ -f ./scripts/lint.sh ]; then echo "File exists"; else echo "File does not exist"; fi
+    - chmod +x ./scripts/lint.sh
+    - sh ./scripts/lint.sh
+
+test:unit:
+  stage: test
+  script:
+    - echo "Running test image"
+    - sh ./scripts/run-tests.sh
+  coverage: '/(?i)total.*? (100(?:\.0+)?\%|[1-9]?\d(?:\.\d+)?\%)$/'
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deployment..."
+    - docker pull $DOCKER_IMAGE:latest
+  only:
+    - tags

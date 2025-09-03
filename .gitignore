@@ -1,0 +1,5 @@
+.idea
+.vscode
+.env
+gitlab-runner/config/config.toml.dist
+!gitlab-runner/config/config.toml.dist
